@@ -84,6 +84,8 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Enter your Email and Password", Toast.LENGTH_SHORT).show();  }
                     else
            new PostDataTask().execute("http://138.68.177.4:3000/api/login");
+                Intent intent = new Intent(getApplicationContext(),JobList.class);
+                startActivity(intent);
 
 
            }

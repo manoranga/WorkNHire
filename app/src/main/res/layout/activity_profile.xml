@@ -106,6 +106,14 @@
             android:text="0716485963"
             android:textColor="@android:color/black"
             android:textSize="16dp" />
+
+        <ImageButton
+            android:layout_width="173dp"
+            android:layout_height="36dp"
+            android:background="#b3d9ff"
+            android:paddingLeft="80px"
+            android:id="@+id/imgBtnCaller"
+            android:src="@drawable/ic_call_black_24dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -131,27 +139,39 @@
             android:textSize="16dp" />
     </LinearLayout>
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:layout_height="160dp">
 
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-             />
-
-        <TextView
-            android:id="@+id/tv_address"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:text="Akuressa, Galle"
-            android:textColor="@android:color/black"
-            android:textSize="16dp" />
-    </LinearLayout>
+            android:text="Chat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="13dp"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="29dp"
+                android:text="Rate" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+
 
 </LinearLayout>
