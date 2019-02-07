@@ -32,7 +32,8 @@
         <activity android:name=".JobList" />
         <activity android:name=".ForgetPassword" />
         <activity android:name=".ChangePassword" />
-        <activity android:name=".Profile"></activity>
+        <activity android:name=".Profile" />
+        <activity android:name=".CreateInvoceActivity"></activity>
     </application>
 
 </manifest>

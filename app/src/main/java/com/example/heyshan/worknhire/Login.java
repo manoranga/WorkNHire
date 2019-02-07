@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 import org.json.JSONException;
@@ -34,6 +35,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,10 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
 import static com.android.volley.Request.Method.POST;
@@ -62,6 +67,7 @@ public class Login extends AppCompatActivity {
     private EditText Password;
     private ProgressDialog pDialog;
     private TextView mResult;
+    private UserLocalStorage userLocalStore;
 
 
     @Override
@@ -71,7 +77,7 @@ public class Login extends AppCompatActivity {
 
         mResult = (TextView) findViewById(R.id.tv_result);
 
-
+        userLocalStore = new UserLocalStorage(this);
         Email = findViewById(R.id.etEmailInLogin);
         Password = findViewById(R.id.etPasswordInLogin);
         btnLogIn = findViewById(R.id.btnLogIn);
@@ -79,16 +85,16 @@ public class Login extends AppCompatActivity {
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(Email.getText().toString()) && TextUtils.isEmpty(Password.getText().toString())){
-
-                    Toast.makeText(Login.this, "Enter your Email and Password", Toast.LENGTH_SHORT).show();  }
-                    else
-           new PostDataTask().execute("http://138.68.177.4:3000/api/login");
+//                if (TextUtils.isEmpty(Email.getText().toString()) && TextUtils.isEmpty(Password.getText().toString())){
+//
+//                    Toast.makeText(Login.this, "Enter your Email and Password", Toast.LENGTH_SHORT).show();  }
+//                    else
+////                        new PostDataTask().execute("http://138.68.177.4:3000/api/client/haha@gmail.com");
+               // login();
                 Intent intent = new Intent(getApplicationContext(),JobList.class);
                 startActivity(intent);
-
-
-           }
+                finish();
+            }
         });
 
 
@@ -114,6 +120,33 @@ public class Login extends AppCompatActivity {
 //
 //
 //    }
+
+    public void login(){
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://138.68.177.4:3000/").addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+
+        ApiClient client = retrofit.create(ApiClient.class);
+        Call<UserModel> call = client.login(Email.getText().toString());
+
+        call.enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, retrofit2.Response<UserModel> response) {
+                userLocalStore.setUserLoggedIn(true);
+                userLocalStore.setUserDetails(response.body());
+
+                Intent intent = new Intent(getApplicationContext(),JobList.class);
+                startActivity(intent);
+                finish();
+                Toast.makeText(Login.this, response.body().getFname(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+
+            }
+        });
+    }
 
     class PostDataTask extends AsyncTask<String, Void, String> {
 
